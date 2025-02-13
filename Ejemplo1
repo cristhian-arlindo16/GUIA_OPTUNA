@@ -1,0 +1,33 @@
+# Cambiar el backend de matplotlib para evitar Tkinter
+import matplotlib
+matplotlib.use('Agg')  # Usamos 'Agg' para evitar el uso de Tkinter
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+# Cargar el dataset y manejar los valores nulos
+data = {
+    'Nombre': ['Alice', 'Bob', 'Charlie', np.nan, 'Eve'],
+    'Edad': [25, np.nan, 30, 22, np.nan],
+    'Ciudad': ['New York', 'Los Angeles', 'Chicago', 'Miami', 'Dallas']
+}
+
+df = pd.DataFrame(data)
+
+# Mostrar el dataframe original con valores nulos
+print("Dataframe original con valores nulos:")
+print(df)
+
+# Eliminar valores nulos
+df_cleaned = df.dropna()
+print("\nDataframe después de eliminar valores nulos:")
+print(df_cleaned)
+
+# Graficar los resultados
+# Como 'Agg' backend no mostrará el gráfico, lo guardaremos como imagen
+plt.figure(figsize=(8, 6))
+plt.scatter(df['Edad'], df['Ciudad'], color='blue', label='Datos')  # Ejemplo de gráfico
+plt.title('Ejemplo de Gráfico con Datos')
+plt.xlabel('Edad')
+plt.ylabel('Ciudad')
+plt.legend()
