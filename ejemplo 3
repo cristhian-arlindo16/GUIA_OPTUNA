@@ -1,0 +1,35 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+
+# Ruta completa del archivo CSV
+ruta_csv = r"C:\Users\LENOVO\Optuna_Proyecto\Registro Nacional de Infractores_0.csv"
+
+# Cargar el CSV con manejo de errores
+try:
+    df = pd.read_csv(ruta_csv, delimiter=";", encoding="utf-8", on_bad_lines="skip")
+    print("Archivo cargado correctamente.")
+except FileNotFoundError:
+    print(f"Error: No se encontró el archivo en {ruta_csv}")
+    exit()
+except Exception as e:
+    print(f"Error al cargar el archivo: {e}")
+    exit()
+
+# Verificar las columnas disponibles
+print("Columnas en el DataFrame:", df.columns)
+
+# Normalizar nombres de columnas para evitar errores por espacios
+df.columns = df.columns.str.strip()
+
+# Verificar si la columna "Órgano Sancionador" existe antes de aplicar LabelEncoder
+columna_objetivo = "Órgano Sancionador"
+
+if columna_objetivo in df.columns:
+    encoder = LabelEncoder()
+    df[columna_objetivo] = encoder.fit_transform(df[columna_objetivo])
+    print(f"Codificación completada para '{columna_objetivo}'.")
+else:
+    print(f"Error: La columna '{columna_objetivo}' no se encuentra en el dataset.")
+
+# Mostrar los primeros registros para verificar
+print(df.head())
