@@ -1,0 +1,13 @@
+import pandas as pd
+
+# Intentando especificar el delimitador
+df = pd.read_csv("Registro Nacional de Infractores_0.csv", delimiter=";")
+
+# Asegúrate de que la columna de fechas esté en formato datetime
+df["Fecha Resolución"] = pd.to_datetime(df["Fecha Resolución"], dayfirst=True, errors='coerce')
+
+# Extraer el año de la columna 'Fecha Resolución'
+df["Año Resolución"] = df["Fecha Resolución"].dt.year
+
+# Mostrar los primeros registros para verificar
+print(df.head())
